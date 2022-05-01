@@ -31,7 +31,7 @@ jobs:
       - name: Upload the artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "output.html"
+          name: "output"
           path: "hydefront-preview-output.html"
 
   deploy:
@@ -41,10 +41,10 @@ jobs:
       - name: Download the artifact
         uses: actions/download-artifact@v3
         with:
-          name: "output.html"
+          name: "output"
       
-      - name: run ls
-        run: ls -R
+      - name: Rename file to index.html
+        run: mv hydefront-preview-output.html index.html
 
       - name: Upload files to GitHub Pages
         uses: cpina/github-action-push-to-another-repository@v1.4.2
