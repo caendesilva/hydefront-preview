@@ -35,6 +35,7 @@ jobs:
           path: "hydefront-preview-output.html"
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download the artifact
