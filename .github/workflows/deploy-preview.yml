@@ -42,10 +42,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: "output.html"
-          path: "."
       
-      - name: Rename file to index.html
-        run: mv output.html index.html
+      - name: run ls
+        run: ls -R
 
       - name: Upload files to GitHub Pages
         uses: cpina/github-action-push-to-another-repository@v1.4.2
