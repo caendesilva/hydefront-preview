@@ -61,4 +61,5 @@ jobs:
           target-branch: gh-pages
           target-directory: "hydefront-previews/${{ github.sha }}"
 
-      
+      - name: Output the URL
+        run: echo "https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}"
