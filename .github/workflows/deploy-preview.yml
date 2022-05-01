@@ -1,3 +1,4 @@
+# Build and deploy a static preview of a Hyde site using the triggering commit's assets
 name: Build and Deploy Preview
 
 on:
@@ -13,10 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
 
       - name: Echo commit SHA
         run: echo ${{ github.sha }}
-      - run: mkdir build
+      
+      - name: Create output directory
+        run: mkdir ${{ github.sha }}
         
+      # Todo pin the downloads to specific commit sha once stable
+      - name: Download base HTML
+        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/hydefront-preview.html
+        
+      - name: Download compiler
+        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/compiler.php
+
+      - name: Run the compiler
+        run: php compiler.php hydefront-preview.html ${{ github.sha }}
+
+      - name: Upload the artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "output.html"
+          path: "hydefront-preview-output.html"
         
