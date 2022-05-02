@@ -15,13 +15,8 @@ jobs:
     steps:
       # - uses: actions/checkout@v3
 
-      
-      - name: Get short SHA
-        id: short-sha
-        run: echo '::set-output name=SHORT_SHA::$(echo ${{ github.sha }} | cut -c -7 )'
-
       - name: Echo commit SHA
-        run: echo ${{ github.sha }} / ${{ steps.short-sha.outputs.SHORT_SHA }}
+        run: echo ${{ github.sha }} / $(echo ${{ github.sha }} | cut -c -7 )
 
       # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
@@ -38,3 +33,33 @@ jobs:
         with:
           name: "output"
           path: "hydefront-preview-output.html"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: hydefront-preview-$(echo ${{ github.sha }} | cut -c -7 )
+      url: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}
+
+    steps:
+      - name: Download the artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: "output"
+      
+      - name: Rename file to index.html
+        run: mv hydefront-preview-output.html index.html
+
+      - name: Upload files to GitHub Pages
+        uses: cpina/github-action-push-to-another-repository@v1.4.2
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: "."
+          destination-github-username: "hydephp"
+          destination-repository-name: "developer-tools"
+          target-branch: gh-pages
+          target-directory: "hydefront-previews/${{ github.sha }}"
+
+      - name: Output the URL
+        run: echo "https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}"
