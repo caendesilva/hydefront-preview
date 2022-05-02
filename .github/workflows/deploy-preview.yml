@@ -17,6 +17,13 @@ jobs:
 
       - name: Echo commit SHA
         run: echo ${{ github.sha }}
+      
+      - name: Get short commit SHA
+        id: get-short-sha
+        run: echo '::set-output name=SHORT_SHA::${{ github.sha::7 }}'
+
+      - name: Echo short commit SHA
+        run: echo  "${{ steps.get-short-sha.outputs.SHORT_SHA }}"
         
       # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
@@ -38,7 +45,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: hydefront-preview-${{ github.sha }}
+      name: hydefront-preview-${{ steps.get-short-sha.outputs.SHORT_SHA }}
       url: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}
 
     steps:
