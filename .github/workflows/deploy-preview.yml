@@ -38,7 +38,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: echo hydefront-preview-$(echo ${{ github.sha }} | cut -c -7 )
+      name: $(echo ${{ github.sha }} | cut -c -7 )
       url: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}
 
     steps:
