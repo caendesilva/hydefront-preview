@@ -15,12 +15,11 @@ jobs:
     steps:
       # - uses: actions/checkout@v3
         
-      # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
-        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/hydefront-preview.html
+        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/4aaa498f341fca0b32df37e20b8f3dd6a0dbeefd/hydefront-preview.html
         
       - name: Download compiler
-        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/compiler.php
+        run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/4aaa498f341fca0b32df37e20b8f3dd6a0dbeefd/compiler.php
 
       - name: Run the compiler
         run: php compiler.php ${{ github.sha }}
