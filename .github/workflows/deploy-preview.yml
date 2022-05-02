@@ -15,14 +15,9 @@ jobs:
     steps:
       # - uses: actions/checkout@v3
 
-     
-      
-      - name: Add SHORT_SHA env property with commit short sha
-        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-
       - name: Echo commit SHA
-        run: echo "${{ github.sha }} / ${SHORT_SHA}"
-
+        run: echo ${{ github.sha }}
+      
       # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
         run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/hydefront-preview.html
@@ -43,7 +38,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: hydefront-preview-${{ SHORT_SHA }}
+      name: hydefront-preview-${{ github.sha | substring(0, 7) }}
       url: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}
 
     steps:
