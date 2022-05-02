@@ -73,7 +73,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'A live preview has been deployed at: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}!
-              
-              Please note that it may take a few seconds for GitHub Pages to build and deploy. The preview will be removed in a few days.'
+              body: 'test'
             })
