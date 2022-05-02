@@ -18,7 +18,7 @@ jobs:
       
       - name: Get short SHA
         id: short-sha
-        run: echo '::set-output name=SHORT_SHA::${{ github.sha | substring(0, 7) }}'
+        run: echo '::set-output name=SHORT_SHA::$(${{ github.sha }} | substring(0, 7) )'
 
       - name: Echo commit SHA
         run: echo ${{ github.sha }} / ${{ steps.short-sha.outputs.SHORT_SHA }}
