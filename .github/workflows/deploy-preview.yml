@@ -59,3 +59,21 @@ jobs:
 
       - name: Output the URL
         run: echo "https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}"
+
+  report-status:
+    needs: deploy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'A live preview has been deployed at: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}!
+              
+              Please note that it may take a few seconds for GitHub Pages to build and deploy. The preview will be removed in a few days.'
+            })
