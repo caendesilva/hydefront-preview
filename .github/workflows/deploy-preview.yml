@@ -12,17 +12,9 @@ on:
 jobs:
   build: # todo compile scss and ts files
     runs-on: ubuntu-latest
-    outputs:
-      short_sha: ${{ steps.short-sha.outputs.SHORT_SHA }}
     steps:
       # - uses: actions/checkout@v3
-      - name: Get short SHA
-        id: short-sha
-        run: echo '::set-output name=SHORT_SHA::$(echo ${{ github.sha }} | cut -c -7 )'
-
-      - name: Echo commit SHA
-        run: echo ${{ github.sha }} / ${{ steps.short-sha.outputs.SHORT_SHA }}
-
+        
       # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
         run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/hydefront-preview.html
@@ -43,7 +35,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: hydefront-preview-${{ needs.build.outputs.short_sha }}
+      name: hydefront-preview
       url: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}
 
     steps:
