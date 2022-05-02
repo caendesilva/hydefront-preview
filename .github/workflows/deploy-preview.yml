@@ -15,9 +15,14 @@ jobs:
     steps:
       # - uses: actions/checkout@v3
 
-      - name: Echo commit SHA
-        run: echo ${{ github.sha }}
       
+      - name: Get short SHA
+        id: short-sha
+        run: echo '::set-output name=SHORT_SHA::${{ github.sha | substring(0, 7) }}'
+
+      - name: Echo commit SHA
+        run: echo ${{ github.sha }} / ${{ steps.short-sha.outputs.SHORT_SHA }}
+
       # Todo pin the downloads to specific commit sha once stable
       - name: Download base HTML
         run: wget https://raw.githubusercontent.com/caendesilva/hydefront-preview/master/hydefront-preview.html
