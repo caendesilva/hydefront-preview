@@ -60,7 +60,7 @@ jobs:
       - name: Output the URL
         run: echo "https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}"
 
-  report-status:
+  comment-on-pull-request:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +72,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'A live preview is being deployed at: https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}! Please note that it may take a few seconds for GitHub Pages to build and deploy. The preview will be removed in a few days.'
-       
+              body: 'A [live preview](https://hydephp.github.io/developer-tools/hydefront-previews/${{ github.sha }}) is being deployed!<br><br>Please note that it may take a few seconds for GitHub Pages to build and deploy. The preview will be removed in a few days.'
             })
